@@ -1,0 +1,377 @@
+# =============================================================================
+# LightRAG Application .gitignore
+# =============================================================================
+
+# =============================================================================
+# SENSITIVE DATA & CREDENTIALS
+# =============================================================================
+# Environment files with API keys and secrets
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+*.env
+
+# Configuration files that might contain sensitive data
+config/secrets.py
+config/credentials.py
+config/api_keys.py
+**/secrets/
+**/credentials/
+
+# API keys and tokens
+*.key
+*.pem
+*.crt
+*.cert
+api_keys.txt
+tokens.txt
+
+# =============================================================================
+# DOCUMENT STORAGE & PROCESSED DATA
+# =============================================================================
+# Source documents (potentially sensitive business documents)
+DOCSSOURCE/
+docssource/
+documents/
+docs/
+uploads/
+input_files/
+
+# Processed data and knowledge base
+data/
+LightRAG/data/
+*.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Vector databases
+vdb_*.json
+*.vectordb
+*.faiss
+
+# LightRAG storage files
+full_docs.json
+text_chunks.json
+entities.json
+relationships.json
+chunks.json
+llm_response_cache.json
+doc_status.json
+
+# =============================================================================
+# MODELS & LARGE FILES
+# =============================================================================
+# Model files (typically large)
+models/
+*.bin
+*.safetensors
+*.gguf
+*.onnx
+*.pt
+*.pth
+*.model
+
+# Hugging Face cache
+.cache/
+**/cache/
+huggingface_cache/
+
+# =============================================================================
+# LOGS & DEBUG FILES
+# =============================================================================
+# Log files
+logs/
+*.log
+*.log.*
+log_*.txt
+
+# Debug and temporary files
+debug/
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Application specific logs
+application.log
+lightrag.log
+vllm.log
+streamlit.log
+bot.log
+scraper.log
+malaysian_healthcare_news_monitor.log
+reclassify.log
+
+# =============================================================================
+# PYTHON & VIRTUAL ENVIRONMENT
+# =============================================================================
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+venv*/
+virtualenv/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# =============================================================================
+# NODE.JS (if using any frontend components)
+# =============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# =============================================================================
+# STREAMLIT
+# =============================================================================
+.streamlit/
+.streamlit/secrets.toml
+streamlit_cache/
+
+# =============================================================================
+# DATABASES
+# =============================================================================
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+healthcare_monitor.db
+
+# Database dumps
+*.sql
+*.dump
+
+# =============================================================================
+# SYSTEM & IDE FILES
+# =============================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# BACKUP & ARCHIVE FILES
+# =============================================================================
+# Backup files
+*.bak
+*.backup
+*_backup
+*_backup.*
+backup_*
+backups/
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# =============================================================================
+# DOCKER & CONTAINERS
+# =============================================================================
+# Docker
+.dockerignore
+docker-compose.override.yml
+.docker/
+
+# =============================================================================
+# CLOUD & DEPLOYMENT
+# =============================================================================
+# AWS
+.aws/
+aws-credentials
+
+# Azure
+.azure/
+
+# Google Cloud
+.gcloud/
+gcloud-credentials.json
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# =============================================================================
+# MONITORING & ANALYTICS
+# =============================================================================
+# Monitoring data
+monitoring/
+metrics/
+analytics/
+
+# =============================================================================
+# CUSTOM APPLICATION EXCLUDES
+# =============================================================================
+# Test files with sensitive data
+test_data/
+test_documents/
+sample_data/
+
+# Configuration backups
+*_original.py
+*_backup.py
+lightrag_processor_backup*.py
+lightrag_processor_original.py
+
+# User-specific files
+user_config.py
+local_settings.py
+
+# =============================================================================
+# DEVELOPMENT & TESTING
+# =============================================================================
+# Development databases
+dev.db
+test.db
+local.db
+
+# Test outputs
+test_output/
+test_results/
+
+# Benchmarks
+benchmarks/
+performance/
+
+# =============================================================================
+# LARGE FILES & MEDIA
+# =============================================================================
+# Large files that shouldn't be in git
+*.pdf
+*.docx
+*.xlsx
+*.xls
+*.csv
+*.txt
+# Note: You might want to allow specific text files like README.txt
+# In that case, add exceptions like: !README.txt
+
+# Media files
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+
+# =============================================================================
+# END OF .gitignore
+# =============================================================================
