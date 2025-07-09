@@ -25,7 +25,7 @@ A multi-service application that combines LightRAG for knowledge graph-based ret
 
 ### Setup
 
-1. **Clone the repository:**
+**Clone the repository:**
    ```bash
    git clone https://github.com/yourusername/LightRAG-vLLM-Streamlit.git
    cd LightRAG-vLLM-Streamlit
