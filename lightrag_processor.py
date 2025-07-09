@@ -191,4 +191,13 @@ if __name__ == "__main__":
             result = await query_documents(rag, query)
             print(f"📝 Answer: {result}")
 
+            # Keep the service running
+            print("\n🔄 LightRAG processor running - ready to serve queries...")
+            print("Press Ctrl+C to stop")
+            try:
+                while True:
+                    await asyncio.sleep(1)
+            except KeyboardInterrupt:
+                print("\n👋 LightRAG processor stopped")
+
     asyncio.run(main())

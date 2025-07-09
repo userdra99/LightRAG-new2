@@ -4,6 +4,12 @@ import asyncio
 import sys
 from pathlib import Path
 
+import numpy as np
+from lightrag import LightRAG, QueryParam
+from lightrag.utils import EmbeddingFunc
+from lightrag.kg.shared_storage import initialize_pipeline_status
+import openai
+
 # Add project root to path
 sys.path.append(str(Path(__file__).parent))
 
@@ -16,9 +22,69 @@ st.set_page_config(
     layout="wide"
 )
 
+# Initialize LightRAG clients
+@st.cache_resource
+def init_lightrag():
+    """Initialize LightRAG with cached setup"""
+    llm_client = openai.OpenAI(
+        base_url=VLLMConfig.get_llm_endpoint(),
+        api_key="vllm-placeholder"
+    )
+    
+    embed_client = openai.OpenAI(
+        base_url=VLLMConfig.get_embedding_endpoint(),
+        api_key="vllm-placeholder"
+    )
+    
+    async def llm_model_func(prompt, system_prompt=None, history_messages=[], **kwargs):
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
+        if history_messages:
+            messages.extend(history_messages)
+        messages.append({"role": "user", "content": prompt})
+        
+        response = llm_client.chat.completions.create(
+            model="context-labs/meta-llama-Llama-3.2-3B-Instruct-FP16",
+            messages=messages,
+            max_tokens=kwargs.get('max_tokens', 1000),
+            temperature=kwargs.get('temperature', 0.1)
+        )
+        return response.choices[0].message.content
+    
+    async def embedding_func(texts):
+        if isinstance(texts, str):
+            texts = [texts]
+        response = embed_client.embeddings.create(
+            model="jinaai/jina-embeddings-v4-vllm-retrieval",
+            input=texts
+        )
+        return np.array([item.embedding for item in response.data])
+    
+    # Initialize LightRAG
+    rag = LightRAG(
+        working_dir=str(LightRAGConfig.get_working_dir()),
+        llm_model_func=llm_model_func,
+        embedding_func=EmbeddingFunc(
+            embedding_dim=2048,
+            max_token_size=8192,
+            func=embedding_func,
+        ),
+    )
+    
+    return rag
+
+async def query_lightrag(rag, query, mode="local"):
+    """Query LightRAG asynchronously"""
+    try:
+        result = await rag.aquery(query, param=QueryParam(mode=mode))
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
 def check_service_health(url):
     try:
-        response = requests.get(f"{url}/v1/models", timeout=5)
+        response = requests.get(f"{url}/models", timeout=5)
         return response.status_code == 200
     except:
         return False
@@ -118,9 +184,14 @@ def main():
         with col2:
             if st.button("🚀 Run Query", disabled=not query_text.strip()):
                 with st.spinner("Processing query..."):
-                    st.info("Query functionality will be implemented when LightRAG is fully integrated")
-                    st.write(f"**Query:** {query_text}")
-                    st.write(f"**Mode:** {query_mode}")
+                    try:
+                        rag = init_lightrag()
+                        result = asyncio.run(query_lightrag(rag, query_text, query_mode))
+                        st.success("Query completed!")
+                        st.write("**Answer:**")
+                        st.write(result)
+                    except Exception as e:
+                        st.error(f"Query failed: {str(e)}")
     
     with tab3:
         st.header("⚙️ Configuration")
